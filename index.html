@@ -3,35 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Мини-приложение Telegram</title>
-  <script async src="https://telegram.org/js/telegram-web-app.js"></script>
+  <title>Красивый Mini App</title>
+  <!-- Подключаем Google Fonts для красивых шрифтов -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    /* Основные стили */
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background-color: #f5f5f5;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #ff7e5f, #feb47b); /* Градиентный фон */
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
     }
+
+    .container {
+      max-width: 600px;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.6); /* Прозрачный черный фон для контента */
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
     h1 {
-      color: #0088cc;
+      font-size: 3rem;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #fff;
     }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+    }
+
     button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #0088cc;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      background-color: #ff7e5f;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     }
+
     button:hover {
-      background-color: #006699;
+      background-color: #feb47b;
+      transform: scale(1.1);
     }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      button {
+        font-size: 1rem;
+        padding: 12px 25px;
+      }
+    }
+
   </style>
 </head>
 <body>
-  <h1>Добро пожаловать в мини-приложение Telegram!</h1>
-  <p>Нажмите кнопку, чтобы взаимодействовать с Telegram API.</p>
-  <button id="actionButton">Нажми меня</button>
+
+  <div class="container">
+    <h1>Добро пожаловать в Mini App</h1>
+    <p>Нажмите кнопку ниже, чтобы взаимодействовать с Telegram API</p>
+    <button id="actionButton">Нажми меня</button>
+  </div>
 
   <script>
     const tg = window.Telegram.WebApp;
@@ -41,5 +92,6 @@
       tg.sendData("hello_world");
     });
   </script>
+
 </body>
 </html>
