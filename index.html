@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мини-приложение Telegram</title>
+  <script async src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      color: #0088cc;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #0088cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #006699;
+    }
+  </style>
+</head>
+<body>
+  <h1>Добро пожаловать в мини-приложение Telegram!</h1>
+  <p>Нажмите кнопку, чтобы взаимодействовать с Telegram API.</p>
+  <button id="actionButton">Нажми меня</button>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+
+    document.getElementById('actionButton').addEventListener('click', function() {
+      tg.sendData("hello_world");
+    });
+  </script>
+</body>
+</html>
