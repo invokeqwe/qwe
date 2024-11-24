@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Красивый Mini App</title>
+  <title>Кликер с счётчиком</title>
   <!-- Подключаем Google Fonts для красивых шрифтов -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
@@ -39,6 +39,13 @@
     p {
       font-size: 1.2rem;
       margin-bottom: 40px;
+    }
+
+    #clicks {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #ff7e5f;
+      margin-bottom: 20px;
     }
 
     button {
@@ -79,17 +86,29 @@
 <body>
 
   <div class="container">
-    <h1>Добро пожаловать в Mini App</h1>
-    <p>Нажмите кнопку ниже, чтобы взаимодействовать с Telegram API</p>
-    <button id="actionButton">Нажми меня</button>
+    <h1>Привет! Это кликер</h1>
+    <p>Нажимай кнопку, чтобы увеличивать счётчик кликов!</p>
+    <div id="clicks">Кликов: 0</div>
+    <button id="actionButton">Нажми меня!</button>
   </div>
 
   <script>
     const tg = window.Telegram.WebApp;
     tg.ready();
 
+    // Инициализация счётчика кликов
+    let clickCount = 0;
+
+    // Обработчик кликов на кнопку
     document.getElementById('actionButton').addEventListener('click', function() {
-      tg.sendData("hello_world");
+      // Увеличиваем счётчик
+      clickCount++;
+
+      // Обновляем текст на странице
+      document.getElementById('clicks').textContent = `Кликов: ${clickCount}`;
+
+      // Отправляем данные в Telegram (необязательно)
+      tg.sendData(`Количество кликов: ${clickCount}`);
     });
   </script>
 
