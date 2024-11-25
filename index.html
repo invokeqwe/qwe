@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Кликер с счётчиком</title>
+  <title>Кликер с доходом</title>
   <!-- Подключаем Google Fonts для красивых шрифтов -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
@@ -41,7 +41,7 @@
       margin-bottom: 40px;
     }
 
-    #clicks {
+    #clicks, #income {
       font-size: 2rem;
       font-weight: 600;
       color: #ff7e5f;
@@ -86,9 +86,11 @@
 <body>
 
   <div class="container">
-    <h1>Привет! Это кликер</h1>
-    <p>Нажимай кнопку, чтобы увеличивать счётчик кликов!</p>
+    <h1>Привет! Это кликер с доходом</h1>
+    <p>Каждое нажатие на кнопку увеличивает ваш доход.</p>
     <div id="clicks">Кликов: 0</div>
+    <div id="income">Общий доход: 0</div>
+    <div id="incomePerClick">Доход за клик: 1</div>
     <button id="actionButton">Нажми меня!</button>
   </div>
 
@@ -96,19 +98,22 @@
     const tg = window.Telegram.WebApp;
     tg.ready();
 
-    // Инициализация счётчика кликов
+    // Инициализация переменных
     let clickCount = 0;
+    const incomePerClick = 1; // Доход за клик (можно изменить на любое значение)
+    let totalIncome = 0;
 
     // Обработчик кликов на кнопку
     document.getElementById('actionButton').addEventListener('click', function() {
-      // Увеличиваем счётчик
+      // Увеличиваем счётчик кликов
       clickCount++;
 
-      // Обновляем текст на странице
-      document.getElementById('clicks').textContent = `Кликов: ${clickCount}`;
+      // Увеличиваем общий доход на доход за клик
+      totalIncome += incomePerClick;
 
-      // Отправляем данные в Telegram (необязательно)
-      tg.sendData(`Количество кликов: ${clickCount}`);
+      // Обновляем отображение на странице
+      document.getElementById('clicks').textContent = `Кликов: ${clickCount}`;
+      document.getElementById('income').textContent = `Общий доход: ${totalIncome}`;
     });
   </script>
 
