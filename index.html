@@ -41,7 +41,7 @@
       margin-bottom: 40px;
     }
 
-    #clicks, #income {
+    #coins, #income {
       font-size: 2rem;
       font-weight: 600;
       color: #ff7e5f;
@@ -87,8 +87,8 @@
 
   <div class="container">
     <h1>Привет! Это кликер с доходом</h1>
-    <p>Каждое нажатие на кнопку увеличивает ваш доход.</p>
-    <div id="clicks">Кликов: 0</div>
+    <p>Каждое нажатие на кнопку увеличивает количество монет.</p>
+    <div id="coins">Монет: 0</div>
     <div id="income">Общий доход: 0</div>
     <div id="incomePerClick">Доход за клик: 1</div>
     <button id="actionButton">Нажми меня!</button>
@@ -105,14 +105,14 @@
 
     // Обработчик кликов на кнопку
     document.getElementById('actionButton').addEventListener('click', function() {
-      // Увеличиваем счётчик кликов
+      // Увеличиваем счётчик монет
       clickCount++;
 
       // Увеличиваем общий доход на доход за клик
       totalIncome += incomePerClick;
 
       // Обновляем отображение на странице
-      document.getElementById('clicks').textContent = `Кликов: ${clickCount}`;
+      document.getElementById('coins').textContent = `Монет: ${clickCount}`;
       document.getElementById('income').textContent = `Общий доход: ${totalIncome}`;
     });
   </script>
