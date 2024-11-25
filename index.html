@@ -4,13 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Кликер с доходом</title>
-  <!-- Подключаем Google Fonts для красивых шрифтов -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    /* Основные стили */
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #ff7e5f, #feb47b); /* Градиентный фон */
+      background: linear-gradient(to right, #ff7e5f, #feb47b);
       color: #fff;
       margin: 0;
       padding: 0;
@@ -24,7 +22,7 @@
     .container {
       max-width: 600px;
       padding: 40px;
-      background: rgba(0, 0, 0, 0.6); /* Прозрачный черный фон для контента */
+      background: rgba(0, 0, 0, 0.6);
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
@@ -41,7 +39,7 @@
       margin-bottom: 40px;
     }
 
-    #coins, #income {
+    #coins {
       font-size: 2rem;
       font-weight: 600;
       color: #ff7e5f;
@@ -65,7 +63,6 @@
       transform: scale(1.1);
     }
 
-    /* Адаптивность */
     @media (max-width: 768px) {
       .container {
         padding: 20px;
@@ -80,7 +77,6 @@
         padding: 12px 25px;
       }
     }
-
   </style>
 </head>
 <body>
@@ -89,31 +85,22 @@
     <h1>Привет! Это кликер с доходом</h1>
     <p>Каждое нажатие на кнопку увеличивает количество монет.</p>
     <div id="coins">Монет: 0</div>
-    <div id="income">Общий доход: 0</div>
     <div id="incomePerClick">Доход за клик: 1</div>
     <button id="actionButton">Нажми меня!</button>
   </div>
 
   <script>
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-
     // Инициализация переменных
     let clickCount = 0;
     const incomePerClick = 1; // Доход за клик (можно изменить на любое значение)
-    let totalIncome = 0;
 
     // Обработчик кликов на кнопку
     document.getElementById('actionButton').addEventListener('click', function() {
       // Увеличиваем счётчик монет
       clickCount++;
 
-      // Увеличиваем общий доход на доход за клик
-      totalIncome += incomePerClick;
-
       // Обновляем отображение на странице
       document.getElementById('coins').textContent = `Монет: ${clickCount}`;
-      document.getElementById('income').textContent = `Общий доход: ${totalIncome}`;
     });
   </script>
 
