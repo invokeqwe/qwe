@@ -1,108 +1,91 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Кликер с доходом</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #ff7e5f, #feb47b);
-      color: #fff;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-    }
-
-    .container {
-      max-width: 600px;
-      padding: 40px;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 40px;
-    }
-
-    #coins {
-      font-size: 2rem;
-      font-weight: 600;
-      color: #ff7e5f;
-      margin-bottom: 20px;
-    }
-
-    button {
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      background-color: #ff7e5f;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    button:hover {
-      background-color: #feb47b;
-      transform: scale(1.1);
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 20px;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
-
-      button {
-        font-size: 1rem;
-        padding: 12px 25px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Clicker Game</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .button {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .energy-bar {
+            width: 80%;
+            height: 20px;
+            background-color: #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .energy {
+            height: 100%;
+            background-color: #4caf50;
+        }
+    </style>
 </head>
 <body>
+    <div id="points">Points: 0</div>
+    <div class="energy-bar">
+        <div id="energy" class="energy" style="width: 100%;"></div>
+    </div>
+    <button class="button" id="clicker">Click</button>
 
-  <div class="container">
-    <h1>Привет! Это кликер с доходом</h1>
-    <p>Каждое нажатие на кнопку увеличивает количество монет.</p>
-    <div id="coins">Монет: 0</div>
-    <div id="incomePerClick">Доход за клик: 1</div>
-    <button id="actionButton">Нажми меня!</button>
-  </div>
+    <script>
+        const userId = Telegram.WebApp.initDataUnsafe.user?.id || "default_user";
+        let points = 0;
+        let energy = 100;
+        let referrals = 0;
 
-  <script>
-    // Инициализация переменных
-    let clickCount = 0;
-    const incomePerClick = 1; // Доход за клик (можно изменить на любое значение)
+        const updateUI = () => {
+            document.getElementById("points").textContent = `Points: ${points.toFixed(1)}`;
+            document.getElementById("energy").style.width = `${energy}%`;
+        };
 
-    // Обработчик кликов на кнопку
-    document.getElementById('actionButton').addEventListener('click', function() {
-      // Увеличиваем счётчик монет
-      clickCount++;
+        document.getElementById("clicker").addEventListener("click", () => {
+            if (energy >= 0.5) {
+                points += 1 + referrals * 0.1;
+                energy -= 0.5;
+                updateUI();
 
-      // Обновляем отображение на странице
-      document.getElementById('coins').textContent = `Монет: ${clickCount}`;
-    });
-  </script>
+                // Отправка обновления на сервер
+                fetch('/update_progress', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId, points, energy })
+                });
+            } else {
+                alert("Not enough energy!");
+            }
+        });
 
+        const fetchProgress = () => {
+            fetch(`/get_progress?user_id=${userId}`)
+                .then(res => res.json())
+                .then(data => {
+                    points = data.points;
+                    energy = data.energy;
+                    referrals = data.referrals;
+                    updateUI();
+                });
+        };
+
+        fetchProgress();
+        setInterval(fetchProgress, 1000); // Обновление прогресса каждые 1 сек.
+    </script>
 </body>
 </html>
